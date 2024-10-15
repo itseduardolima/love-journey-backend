@@ -9,15 +9,15 @@ export class Journey {
   id: string;
 
   @ApiProperty({ description: 'Name of the first partner' })
-  @Column()
+  @Column({ type: 'varchar', length: 255, charset: 'utf8mb4', collation: 'utf8mb4_unicode_ci' })
   partner1: string;
 
   @ApiProperty({ description: 'Name of the second partner' })
-  @Column()
+  @Column({ type: 'varchar', length: 255, charset: 'utf8mb4', collation: 'utf8mb4_unicode_ci' })
   partner2: string;
 
   @ApiProperty({ description: 'Title of the love story' })
-  @Column()
+  @Column({ type: 'varchar', length: 255, charset: 'utf8mb4', collation: 'utf8mb4_unicode_ci' })
   title: string;
 
   @OneToMany(() => Memory, memory => memory.journey)

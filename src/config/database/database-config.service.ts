@@ -16,6 +16,7 @@ export class DatabaseConfigService implements TypeOrmOptionsFactory {
       database: this.configService.get<string>('DB_DATABASE'),
       synchronize: this.configService.get<boolean>('DB_SYNCHRONIZE'),
       entities: [__dirname + '../../../**/*.entity{.ts,.js}'],
+      charset: 'utf8mb4',
     };
   }
 }

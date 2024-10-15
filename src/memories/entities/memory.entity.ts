@@ -13,11 +13,11 @@ export class Memory {
   date: Date;
 
   @ApiProperty({ description: 'Title of the memory' })
-  @Column()
+  @Column({ type: 'varchar', length: 255, charset: 'utf8mb4', collation: 'utf8mb4_unicode_ci' })
   title: string;
 
   @ApiProperty({ description: 'Description of the memory' })
-  @Column()
+  @Column({ type: 'text', charset: 'utf8mb4', collation: 'utf8mb4_unicode_ci' })
   description: string;
 
   @ApiProperty({ description: 'Photo of the memory' })
