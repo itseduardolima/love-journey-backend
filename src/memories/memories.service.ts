@@ -24,7 +24,8 @@ export class MemoriesService {
     const memory = this.memoriesRepository.create({
       ...createMemoryDto,
       date: moment(createMemoryDto.date, 'DD/MM/YYYY').toDate(),
-      photo: `/uploads/${photo.filename}`,
+      photo: photo.buffer,
+      photoMimeType: photo.mimetype,
       journey: journey,
     });
 
@@ -41,5 +42,13 @@ export class MemoriesService {
       throw new NotFoundException(`Memory with ID "${id}" not found`);
     }
     return memory;
+  }
+
+  async getPhoto(id: string): Promise<{ buffer: Buffer; mimeType: string }> {
+    const memory = await this.memoriesRepository.findOne({ where: { id } });
+    if (!memory || !memory.photo) {
+      throw new NotFoundException(`Photo for memory with ID "${id}" not found`);
+    }
+    return { buffer: memory.photo, mimeType: memory.photoMimeType };
   }
 }

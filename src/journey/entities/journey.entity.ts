@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Memory } from '../../memories/entities/memory.entity';
 
-@Entity()
+@Entity('journey')
 export class Journey {
   @ApiProperty({ description: 'Unique identifier for the journey' })
   @PrimaryGeneratedColumn('uuid')

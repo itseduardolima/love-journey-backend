@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Journey } from '../../journey/entities/journey.entity';
 
-@Entity()
+@Entity("memory")
 export class Memory {
   @ApiProperty({ description: 'Unique identifier for the memory' })
   @PrimaryGeneratedColumn('uuid')
@@ -20,9 +20,13 @@ export class Memory {
   @Column()
   description: string;
 
-  @ApiProperty({ description: 'URL of the photo' })
-  @Column()
-  photo: string;
+  @ApiProperty({ description: 'Photo of the memory' })
+  @Column({ type: 'longblob', nullable: true })
+  photo: Buffer;
+
+  @ApiProperty({ description: 'MIME type of the photo' })
+  @Column({ name: 'photo_mime_type', nullable: true })
+  photoMimeType: string;
 
   @ManyToOne(() => Journey, journey => journey.memories)
   journey: Journey;

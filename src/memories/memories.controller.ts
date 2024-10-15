@@ -1,11 +1,10 @@
-import { Controller, Get, Post, Body, Param, UseInterceptors, UploadedFile, ParseUUIDPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseInterceptors, UploadedFile, ParseUUIDPipe, Res } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags, ApiOperation, ApiResponse, ApiConsumes, ApiBody } from '@nestjs/swagger';
 import { MemoriesService } from './memories.service';
 import { CreateMemoryDto } from './dto/create-memory.dto';
 import { Memory } from './entities/memory.entity';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { Response } from 'express';
 
 @ApiTags('memories')
 @Controller('memories')
@@ -31,15 +30,7 @@ export class MemoriesController {
       },
     },
   })
-  @UseInterceptors(FileInterceptor('photo', {
-    storage: diskStorage({
-      destination: './public/uploads',
-      filename: (req, file, cb) => {
-        const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('');
-        return cb(null, `${randomName}${extname(file.originalname)}`);
-      },
-    }),
-  }))
+  @UseInterceptors(FileInterceptor('photo'))
   async create(
     @Body() createMemoryDto: CreateMemoryDto,
     @UploadedFile() photo: Express.Multer.File,
@@ -59,5 +50,17 @@ export class MemoriesController {
   @ApiResponse({ status: 200, description: 'Return the memory.', type: Memory })
   async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<Memory> {
     return await this.memoriesService.findOne(id);
+  }
+
+  @Get(':id/photo')
+  @ApiOperation({ summary: 'Get the photo of a memory' })
+  @ApiResponse({ status: 200, description: 'Return the photo of the memory.' })
+  async getPhoto(@Param('id', ParseUUIDPipe) id: string, @Res() res: Response) {
+    const { buffer, mimeType } = await this.memoriesService.getPhoto(id);
+    res.set({
+      'Content-Type': mimeType,
+      'Content-Length': buffer.length,
+    });
+    res.end(buffer);
   }
 }
