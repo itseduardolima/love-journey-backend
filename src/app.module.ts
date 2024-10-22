@@ -5,6 +5,8 @@ import { ConfigModule } from '@nestjs/config';
 import * as cors from 'cors';
 import { JourneyModule } from './journey/journey.module';
 import { MemoriesModule } from './memories/memories.module';
+import { PaymentModule } from './payment/payment.module';
+
 
 @Module({
   imports: [
@@ -17,8 +19,10 @@ import { MemoriesModule } from './memories/memories.module';
     }),
     JourneyModule,
     MemoriesModule,
+    PaymentModule
   ],
   controllers: [],
+  providers: [],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
