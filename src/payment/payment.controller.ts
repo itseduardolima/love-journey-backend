@@ -26,22 +26,4 @@ export class PaymentController {
   async getPaymentStatus(@Param('journeyId') journeyId: string) {
     return this.paymentService.getPaymentStatus(journeyId);
   }
-
-  @Post('webhook')
-  @HttpCode(200)
-  @ApiOperation({ summary: 'Handle MercadoPago webhook notifications' })
-  @ApiBody({ description: 'Webhook payload' })
-  @ApiResponse({ status: 200, description: 'Webhook processed successfully' })
-  @ApiResponse({ status: 401, description: 'Invalid signature' })
-  async handleWebhook(
-    @Body() payload: any,
-    @Headers('x-signature') signature: string
-  ): Promise<{ received: boolean }> {
-    if (!this.paymentService.verifyWebhookSignature(JSON.stringify(payload), signature)) {
-      throw new UnauthorizedException('Invalid signature');
-    }
-
-    await this.paymentService.handleWebhook(payload);
-    return { received: true };
-  }
 }
