@@ -53,7 +53,7 @@ export class PaymentService {
               id: journeyId,
               title: `Love Journey ${journeyId}`,
               quantity: 1,
-              unit_price: 0.01,
+              unit_price: 15.00,
             },
           ],
           external_reference: journeyId,
