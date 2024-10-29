@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsBoolean } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateJourneyDto {
@@ -16,4 +16,8 @@ export class CreateJourneyDto {
   @IsString()
   @IsNotEmpty()
   title: string;
+
+  @ApiProperty({ description: 'Whether the journey is paid', default: false })
+  @IsBoolean()
+  isPaid: boolean;
 }

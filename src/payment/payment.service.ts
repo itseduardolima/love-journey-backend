@@ -1,10 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { MercadoPagoConfig, Preference, Payment } from 'mercadopago';
-import * as crypto from 'crypto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Journey } from 'src/journey/entities/journey.entity';
 
 @Injectable()
 export class PaymentService {
@@ -12,11 +8,7 @@ export class PaymentService {
   private preference: Preference;
   private payment: Payment;
 
-  constructor(
-    private configService: ConfigService,
-    @InjectRepository(Journey)
-    private readonly journeyRepository: Repository<Journey>,
-  ) {
+  constructor(private configService: ConfigService) {
     const accessToken = this.configService.get<string>(
       'MERCADO_PAGO_ACCESS_TOKEN',
     );
@@ -53,7 +45,7 @@ export class PaymentService {
               id: journeyId,
               title: `Love Journey ${journeyId}`,
               quantity: 1,
-              unit_price: 15.00,
+              unit_price: 0.01,
             },
           ],
           external_reference: journeyId,
@@ -83,7 +75,6 @@ export class PaymentService {
           criteria: 'desc',
           limit: 1,
         },
-        // Use type assertion to include the filters property
         filters: {
           external_reference: journeyId,
         },

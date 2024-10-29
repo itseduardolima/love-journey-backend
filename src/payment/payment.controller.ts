@@ -1,5 +1,5 @@
-import { Controller, Post, Get, Param, Body, Headers, HttpCode, UnauthorizedException } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger';
+import { Controller, Post, Get, Param,  } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { PaymentService } from './payment.service';
 
 @ApiTags('Payment')

@@ -49,17 +49,13 @@ export class Journey {
   @OneToMany(() => Memory, (memory) => memory.journey)
   memories: Memory[];
 
-  @ApiProperty({ description: 'Payment status of the journey' })
-  @Column({ name: 'payment_status', type: 'varchar', length: 50, default: 'pending' })
-  paymentStatus: string;
+  @ApiProperty({ description: 'Whether the journey is a paid version' })
+  @Column({ name: 'is_paid', type: 'boolean', default: false })
+  isPaid: boolean;
 
-  @ApiProperty({ description: 'Mercado Pago payment ID' })
-  @Column({ name: 'payment_id', type: 'varchar', length: 255, nullable: true })
-  paymentId: string;
-
-  @ApiProperty({ description: 'Mercado Pago preference ID' })
-  @Column({ name: 'preference_id', type: 'varchar', length: 255, nullable: true })
-  preferenceId: string;
+  @ApiProperty({ description: 'Expiration date of the journey' })
+  @Column({ name: 'expiration_date', type: 'timestamp' })
+  expirationDate: Date;
 
   @ApiProperty({ description: 'Date and time when the journey was created' })
   @CreateDateColumn({ name: 'created_at' })
