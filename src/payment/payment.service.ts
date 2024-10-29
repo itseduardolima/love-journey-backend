@@ -43,7 +43,7 @@ export class PaymentService {
           items: [
             {
               id: journeyId,
-              title: `Love Journey ${journeyId}`,
+              title: "Love Journey",
               quantity: 1,
               unit_price: 15.00,
             },
